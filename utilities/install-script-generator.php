@@ -75,6 +75,7 @@ foreach($rows as $row) {
     }
     $script .= '  \'' . $attributeKey . '\' => ' . $row[$index] . ',' . PHP_EOL;
   }
+  $script .= '  \'user_defined\' => true,' . PHP_EOL;
   $script .= '));' . PHP_EOL . PHP_EOL;
 }
 
