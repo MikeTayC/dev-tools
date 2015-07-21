@@ -37,6 +37,7 @@ $scriptKeys = array(
   'apply_to'
 );
 $inputKeys = null;
+// Grab the main attribute keys header, discard unnecessary header rows
 foreach($rows as $row) {
   if (!in_array('name', $row) && !in_array('type', $row)) {
     array_shift($rows);
@@ -45,20 +46,27 @@ foreach($rows as $row) {
     break;
   }
 }
+// Sanitize attribute keys from input and link with associated index (column identifier)
 $attributeKeys = array();
 foreach($scriptKeys as $key) {
   $index = array_search($key, $inputKeys);
-  $attributeKeys[$index] = $key;
-} 
+  if ($index !== false) {
+    $attributeKeys[$index] = $key;
+  }
+}
 $nameIndex = array_search('name', $inputKeys);
+if ($nameIndex === false) {
+  die("Couldn't find 'name' column for attributes");
+}
 unset($scriptKeys);
 unset($inputKeys);
 
-
+// Begin install script string
 $script = '<?php' . PHP_EOL
   . '$installer = Mage::getResourceModel(\'catalog/setup\', \'catalog_setup\');' . PHP_EOL
   . '$installer->startSetup();' . PHP_EOL . PHP_EOL;
 
+// Write $installer->addAttribute() for each row beneath the attribute keys header
 foreach($rows as $row) {
   $script .= '$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, \'' . $row[$nameIndex] . '\', array(' . PHP_EOL;
   foreach($attributeKeys as $index => $attributeKey) {
