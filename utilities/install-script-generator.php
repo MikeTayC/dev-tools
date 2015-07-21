@@ -23,7 +23,18 @@ $scriptKeys = array(
   'unique',
   'source',
   'backend',
-  'frontend_class'
+  'frontend',
+  'default',
+  'input_renderer',
+  'sort_order',
+  'used_for_sort_by',
+  'position',
+  'is_configurable',
+  'used_for_promo_rules',
+  'filterable_in_search',
+  'is_html_allowed_on_front',
+  'frontend_class',
+  'apply_to'
 );
 $inputKeys = null;
 foreach($rows as $row) {
