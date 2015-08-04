@@ -62,11 +62,11 @@ foreach($rows as $row) {
   $script .= '$installer->addAttribute(\'customer\', \'' . $row[$nameIndex] . '\', array(' . PHP_EOL;
   $validateRules = array();
   foreach($attributeKeys as $index => $attributeKey) {
-    if (in_array($attributeKey, array('input_validation', 'max_text_length', 'min_text_length'))) {
-      $validateRules[$attributeKey] = $row[$index];
+    if (empty($row[$index])) {
       continue;
     }
-    if (empty($row[$index])) {
+    if (in_array($attributeKey, array('input_validation', 'max_text_length', 'min_text_length'))) {
+      $validateRules[$attributeKey] = $row[$index];
       continue;
     }
     if (!($row[$index] == 'true' || $row[$index] == 'false' || strpos($row[$index], 'Mage_') === 0)) {
