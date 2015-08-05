@@ -83,7 +83,7 @@ foreach($rows as $row) {
 $script .= '// Set used_in_forms on visible attributes' . PHP_EOL;
 $script .= '$visibleAttributes = array(' . PHP_EOL;
 foreach($rows as $row) {
-  if (!empty($row[$visibilityIndex])) {
+  if (!empty($row[$visibilityIndex]) && $row[$visibilityIndex] != 'false') {
     $script .= '  \'' . $row[$nameIndex] . '\',' . PHP_EOL;
   }
 }
