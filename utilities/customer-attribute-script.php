@@ -100,8 +100,10 @@ $script .= '  if (!empty($attribute[\'adminhtml_only\'])) {' . PHP_EOL;
 $script .= '    $usedInForms = array(\'adminhtml_customer\');' . PHP_EOL;
 $script .= '  } else {' . PHP_EOL;
 $script .= '    $usedInForms[] = \'adminhtml_customer\';' . PHP_EOL;
+$script .= '  }' . PHP_EOL;
 $script .= '  if (!empty($attribute[\'admin_checkout\'])) {' . PHP_EOL;
 $script .= '    $usedInForms[] = \'adminhtml_checkout\';' . PHP_EOL;
+$script .= '  }' . PHP_EOL;
 $script .= '  $attribute->setData(\'used_in_forms\', $usedInForms)->save();' . PHP_EOL;
 $script .= '}' . PHP_EOL . PHP_EOL;
 
