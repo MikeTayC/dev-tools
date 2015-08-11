@@ -53,6 +53,9 @@ $script = '<?php' . PHP_EOL
 
 // Write $installer->addAttribute() for each row beneath the attribute keys header
 foreach($rows as $row) {
+  if (empty($row[$nameIndex])) {
+    continue;
+  }
   $script .= '$installer->addAttribute(\'customer_address\', \'' . $row[$nameIndex] . '\', array(' . PHP_EOL;
   $validateRules = array();
   foreach($attributeKeys as $index => $attributeKey) {

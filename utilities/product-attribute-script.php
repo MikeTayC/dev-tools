@@ -68,6 +68,9 @@ $script = '<?php' . PHP_EOL
 
 // Write $installer->addAttribute() for each row beneath the attribute keys header
 foreach($rows as $row) {
+  if (empty($row[$nameIndex])) {
+    continue;
+  }
   $script .= '$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, \'' . $row[$nameIndex] . '\', array(' . PHP_EOL;
   foreach($attributeKeys as $index => $attributeKey) {
     if (!($row[$index] == 'true' || $row[$index] == 'false' || strpos($row[$index], 'Mage_') === 0)) {
