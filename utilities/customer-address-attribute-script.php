@@ -88,11 +88,18 @@ $script .= ');' . PHP_EOL;
 
 $script .= 'foreach($visibleAttributes as $attr) {' . PHP_EOL;
 $script .= '  $attribute = Mage::getSingleton(\'eav/config\')->getAttribute(\'customer_address\', $attr);' . PHP_EOL;
-$script .= '  $attribute->setData(\'used_in_forms\',  array(' . PHP_EOL;
-$script .= '    \'adminhtml_customer_address\',' . PHP_EOL;
-$script .= '    \'customer_address_edit\',' . PHP_EOL;
-$script .= '    \'customer_register_address\'' . PHP_EOL;
-$script .= '  ))->save();' . PHP_EOL;
+$script .= '  if (empty($attribute[\'adminhtml_only\'])) {' . PHP_EOL;
+$script .= '    $attribute->setData(\'used_in_forms\',  array(' . PHP_EOL;
+$script .= '      \'adminhtml_customer_address\',' . PHP_EOL;
+$script .= '      \'customer_address_edit\',' . PHP_EOL;
+$script .= '      \'customer_register_address\'' . PHP_EOL;
+$script .= '    ));' . PHP_EOL;
+$script .= '  } else {' . PHP_EOL;
+$script .= '    $attribute->setData(\'used_in_forms\',  array(' . PHP_EOL;
+$script .= '      \'adminhtml_customer_address\',' . PHP_EOL;
+$script .= '    ));' . PHP_EOL;
+$script .= '  }' . PHP_EOL;
+$script .= '  $attribute->save();' . PHP_EOL;
 $script .= '}' . PHP_EOL . PHP_EOL;
 
 $script .= '$installer->endSetup();' . PHP_EOL;
