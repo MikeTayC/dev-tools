@@ -9,6 +9,8 @@ The Magento module has yet to be created. The *script-generators* directory cont
 2. *customer-attribute-script.php*: script for generating an install script for customer attributes. The script can be used in the same way as *product-attribute-script.php*; refer to the "Customer Attributes" tab of the linked google doc.
 
 ##### Tamper Monkey Scripts
+1. *attask-balance.js*: Detects if you are viewing a task in attask and shows you the budget at the top of the page.
+2. *magento-auto-login.js*: Detects if you are on a local (.dev) magento admin panel and automatically logs you in with the username/password defined in the script.
 
 
 ### Future Plans
