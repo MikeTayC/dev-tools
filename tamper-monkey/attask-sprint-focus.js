@@ -61,6 +61,58 @@ var onlyBlur = false;
     currentlyFocused = !currentlyFocused;
   };
 
+  var updateStoryStyles = function() {
+     $.each($('.tasks img.TINY'), function(idx, img){
+         $(this).css({
+             'width': 'auto',
+             'height': 'auto',
+             'margin-bottom': 'auto'
+         }).addClass('MEDIUM')
+           .removeClass('TINY')
+           .attr('src',$(this).attr('src').replace('TINY','MEDIUM'));
+     });
+
+     $('.taskboard .story .position-top').css({
+        'left': '50px',
+        'white-space': 'initial'
+     });
+
+     $.each($('.taskboard .story .assignments'), function(idx, img){
+        if($(this).find('img').length > 1){
+          $(this).css({
+              'transition': 'width 0.5s ease-in',
+              'width': '40px',
+              'height': '40px',
+              'display': 'inline-block'
+          }).on('mouseenter', function(){
+              $(this).css({
+                'width': 'auto',
+                'display': 'inline'
+              });
+          }).on('mouseleave', function(){
+              $(this).css({
+                'width': '40px',
+                'display': 'inline-block'
+              });
+          });
+          $(this).append('<i>' + $(this).find('img').length + '</i>');
+          $(this).find('i').css({
+            'display': 'inline-block',
+            'position': 'absolute',
+              'left': '2px',
+              'bottom' : '2px',
+              'background': '#0074D9',
+              'color': '#fff',
+              'font': 'normal 10px/16px Arial, Helvetica, sans-serif',
+              'text-align': 'center',
+              'height': '16px',
+              'width': '16px',
+              'border-radius': '50%'
+          });
+        }
+     });
+  };
+
   // Add toggle button
   $(buttonTarget).append('<button id="samtay-toggle" class="white" style="float:right;"><span>Toggle Focus</span></button>');
   $('#samtay-toggle').on('click', toggle);
@@ -75,6 +127,8 @@ var onlyBlur = false;
       });
       initiallyFocused && toggle();
       previouslyRun = true;
+      updateStoryStyles();
     }
   });
+
 })(jQuery);
