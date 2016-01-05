@@ -12,6 +12,9 @@
 /* Focus view initially */
 var initiallyFocused = true;
 
+/* Only blur stories (or fully hide them) */
+var onlyBlur = false;
+
 (function($) {
   // Set initial values
   var currentlyFocused = false,
@@ -39,13 +42,21 @@ var initiallyFocused = true;
   // Toggle focused view
   var toggle = function() {
     if (currentlyFocused) {
-      stories.css(clearCss).off('mouseover').off('mouseout');
+      if (onlyBlur) {
+        stories.css(clearCss).off('mouseover').off('mouseout');
+      } else {
+        stories.show();
+      }
     } else {
-      stories.css(blurCss).on('mouseover', function() {
-        $(this).css(clearCss);
-      }).on('mouseout', function() {
-        $(this).css(blurCss);
-      });
+      if (onlyBlur) {
+        stories.css(blurCss).on('mouseover', function() {
+          $(this).css(clearCss);
+        }).on('mouseout', function() {
+          $(this).css(blurCss);
+        });
+      } else {
+        stories.hide();
+      }
     }
     currentlyFocused = !currentlyFocused;
   };
