@@ -9,8 +9,13 @@
 /* jshint -W097 */
 'use strict';
 
+/* Sprint Board Focus State */
+if (localStorage.getItem('BA:SprintBoard:Focused') === null) {
+  localStorage.setItem('BA:SprintBoard:Focused', 'false');
+}
+
 /* Focus view initially */
-var initiallyFocused = true;
+var initiallyFocused = JSON.parse(localStorage.getItem('BA:SprintBoard:Focused'));
 
 /* Only blur stories (or fully hide them) */
 var onlyBlur = false;
@@ -59,6 +64,7 @@ var onlyBlur = false;
       }
     }
     currentlyFocused = !currentlyFocused;
+    localStorage.setItem('BA:SprintBoard:Focused', currentlyFocused.toString());
   };
 
   var updateStoryStyles = function() {
