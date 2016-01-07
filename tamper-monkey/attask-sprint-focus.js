@@ -13,18 +13,40 @@
 if (localStorage.getItem('BA:SprintBoard:Focused') === null) {
   localStorage.setItem('BA:SprintBoard:Focused', 'false');
 }
+if (localStorage.getItem('BA:SprintBoard:Blur') === null) {
+  localStorage.setItem('BA:SprintBoard:Blur', 'false');
+}
+if (localStorage.getItem('BA:SprintBoard:Colors') === null) {
+  localStorage.setItem('BA:SprintBoard:Colors', 'false');
+}
+if (localStorage.getItem('BA:SprintBoard:Icons') === null) {
+  localStorage.setItem('BA:SprintBoard:Icons', 'false');
+}
+
+var toggleSettingValue = function(setting) {
+  console.log(setting);
+  if(localStorage.getItem('BA:SprintBoard:' + setting) === 'true'){
+    localStorage.setItem('BA:SprintBoard:' + setting, 'false');
+    location.reload();
+  }else{
+    localStorage.setItem('BA:SprintBoard:' + setting, 'true');
+    location.reload();
+  }
+};
 
 /* Focus view initially */
 var initiallyFocused = JSON.parse(localStorage.getItem('BA:SprintBoard:Focused'));
 
 /* Only blur stories (or fully hide them) */
-var onlyBlur = false;
+var onlyBlur = JSON.parse(localStorage.getItem('BA:SprintBoard:Blur'));
 
 /* Show Color Names */
-var showColorNames = true;
+var showColorNames = JSON.parse(localStorage.getItem('BA:SprintBoard:Colors'));
 
 /* Show Large Icons */
-var showLargeIcons = true;
+var showLargeIcons = JSON.parse(localStorage.getItem('BA:SprintBoard:Icons'));
+
+console.log(initiallyFocused, onlyBlur, showColorNames, showLargeIcons);
 
 (function($) {
   // Set initial values
@@ -92,19 +114,20 @@ var showLargeIcons = true;
          'left': '50px',
          'white-space': 'initial'
       });
-    }else{
-      iconHeight = '22px';
-      $.each($('.tasks img.TINY'), function(idx, img){
-          $(this).css({
-              'width': 'auto',
-              'height': 'auto',
-              'margin-bottom': 'auto',
-              'float': 'left'
-          });
-      });
     }
+    // else{
+    //   iconHeight = '22px';
+    //   $.each($('.tasks img.TINY'), function(idx, img){
+    //       $(this).css({
+    //           'width': 'auto',
+    //           'height': 'auto',
+    //           'margin-bottom': 'auto',
+    //           'float': 'left'
+    //       });
+    //   });
+    // }
 
-     if(!showColorNames || (showColorNames && showLargeIcons)) {
+     if(showLargeIcons) {
           $.each($('.taskboard .story .assignments'), function(idx, img){
             if($(this).find('img').length > 1){
               $(this).css({
@@ -213,9 +236,76 @@ var showLargeIcons = true;
 
   };
 
+  var toggleMenu = function() {
+    $('.tm-menu').toggleClass('active');
+  };
+
+  var toggleColorNames = function() {
+    toggleSettingValue('Colors');
+  };
+
+  var toggleBlur = function() {
+      toggleSettingValue('Blur');
+  };
+
+  var toggleIcons = function() {
+      toggleSettingValue('Icons');
+  };
+
+  $('#content-team-header').removeClass('overflow-hidden');
+
+  var htmlContent = '<div class="buttons-group">' +
+                      '<button id="samtay-toggle" class="white"><span>Toggle Focus</span></button>' +
+                      '<button id="tm-menu-toggle" class="white"><span>BA</span><i></i></button>' +
+                      '<div class="tm-menu">' +
+                          '<a id="toggle-colors" class="menu-link">Toggle Color Names</a>' +
+                          '<a id="toggle-large-portraits" class="menu-link">Toggle Large Portraits</a>' +
+                          '<a id="toggle-blur" class="menu-link">Toggle Blur On Focus</a>' +
+                      '</div>' +
+                    '</div>' +
+                    '<style>' +
+                        '.buttons-group {' +
+                          'position: relative;' +
+                          'float: right;' +
+                        '}' +
+                        '.tm-menu {' +
+                          'display: none;' +
+                          'position: absolute;' +
+                          'left: 5px;' +
+                          'top: 100%;' +
+                          'border: 1px solid #5E8FAA;' +
+                          'background: #fff;' +
+                          'padding: 5px;' +
+                          'border-radius: 3px;' +
+                          'z-index: 9999;' +
+                        '}' +
+                        '.tm-menu.active { display: block; }' +
+                        '.tm-menu a { float: left; clear: both; }' +
+                        '#samtay-toggle,' +
+                        '#tm-menu-toggle {' +
+                          'float: right;' +
+                          'margin-left: 5px;' +
+                        '} ' +
+                        '#tm-menu-toggle span {' +
+                          'float: left;' +
+                        '}' +
+                        '#tm-menu-toggle i { ' +
+                          'background: url(\'/static/img/s-mdm2.png\') no-repeat -12px -892px;' +
+                          'display: block;' +
+                          'width: 17px;' +
+                          'height: 16px; ' +
+                          'float: left;' +
+                          'margin-left: 5px' +
+                        '}' +
+                    '</style>';
+
   // Add toggle button
-  $(buttonTarget).append('<button id="samtay-toggle" class="white" style="float:right;"><span>Toggle Focus</span></button>');
+  $(buttonTarget).append(htmlContent);
   $('#samtay-toggle').on('click', toggle);
+  $('#tm-menu-toggle').on('click', toggleMenu);
+  $('#toggle-colors').on('click', toggleColorNames);
+  $('#toggle-large-portraits').on('click', toggleIcons);
+  $('#toggle-blur').on('click', toggleBlur);
 
   // Find stories && set initial view
   var previouslyRun = false;
