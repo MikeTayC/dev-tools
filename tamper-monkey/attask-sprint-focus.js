@@ -20,6 +20,12 @@ var initiallyFocused = JSON.parse(localStorage.getItem('BA:SprintBoard:Focused')
 /* Only blur stories (or fully hide them) */
 var onlyBlur = false;
 
+/* Show Color Names */
+var showColorNames = true;
+
+/* Show Large Icons */
+var showLargeIcons = true;
+
 (function($) {
   // Set initial values
   var currentlyFocused = false,
