@@ -209,8 +209,8 @@ console.log(initiallyFocused, onlyBlur, showColorNames, showLargeIcons);
       $.each($('.taskboard .story .portrait'), function(idx, portrait) {
         if($(portrait).attr('title') !== '') {
           var portraitName = $(portrait).attr('title').split(' ')[0],
-              primaryColor = Object.keys(users[portraitName])[0],
-              secondaryColor = users[portraitName][Object.keys(users[portraitName])];
+              primaryColor = users.hasOwnProperty(portraitName) ? Object.keys(users[portraitName])[0] : '#FFFFFF',
+              secondaryColor = users.hasOwnProperty(portraitName) ? users[portraitName][Object.keys(users[portraitName])] : '#000000';
 
               if(colorNames && !showLargeIcons) {
                 $(portrait).hide();
